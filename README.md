@@ -19,8 +19,8 @@ its [page](https://github.com/thinkaurelius/titan/wiki/Downloads) for more infor
 
 ## TinkerPop and Gremlin
 
-[Tinkerpop](http://www.tinkerpop.com/) is a vendor-independent API specification for
-manipulating and access Graph databases.
+[TinkerPop](http://www.tinkerpop.com/) is a vendor-independent API specification for
+manipulating and access Graph databases. This is using TinkerPop 3.0.1.
 
 ## Running
 
