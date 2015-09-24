@@ -1,6 +1,6 @@
 # Docker Image for Titan Graph Database
 
-<img src="https://raw.githubusercontent.com/elubow/titan-gremlin/master/titan-docker-logo.png" width="250" align="center">
+<p align="center"><img src="https://raw.githubusercontent.com/elubow/titan-gremlin/master/titan-docker-logo.png" width="250"></p>
 
 [Titan](http://titandb.io/) is a free, open source database that is capable of processing
 extremely large graphs and it supports a variety of indexing and storage backends,
