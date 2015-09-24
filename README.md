@@ -1,6 +1,8 @@
 # Docker Image for Titan Graph Database
 
-Titan is a free, open source database that is capable of processing
+![Titan TinkerPop Gremlin Docker](https://raw.github.com/elubow/gremlin-titan/master/titan-docker-logo.png)
+
+[Titan](http://titandb.io/) is a free, open source database that is capable of processing
 extremely large graphs and it supports a variety of indexing and storage backends,
 which makes it easier to extend than some popular NoSQL Graph databases.
 
@@ -44,18 +46,38 @@ docker run -d --name cas3 poklet/cassandra start `docker inspect --format '{{ .N
 docker run -d --link es1:elasticsearch --link cas1:cassandra -p 8182:8182 -p 8183:8183 -p 8184:8184 --name titan1 titan
 ```
 
+## Connecting with Gremlin Client
+
+If you want to connect from a Gremlin client, download [Titan](http://s3.thinkaurelius.com/downloads/titan/titan-1.0.0-hadoop1.zip).
+Then create a properties file that looks like this where the `storage.hostname` is the hostname or IP of docker.
+
+```
+storage.backend=cassandrathrift
+storage.hostname=192.168.99.100
+```
+
+Then start the gremlin server by doing `bin/gremlin.sh` and run the following commands:
+
+```
+gremlin> graph = TitanFactory.open('/Users/elubow/tmp/local-gremlin.properties')
+==>standardtitangraph[cassandrathrift:[192.168.99.100]]
+gremlin> g = graph.traversal()
+==>graphtraversalsource[standardtitangraph[cassandrathrift:[192.168.99.100]], standard]
+gremlin> g.V()
+==>v[4168]
+```
+
 ### Ports
 
 8182: HTTP port for REST API
-
 8184: JMX Port (You won't need to use this, probably)
 
 To test out the REST API (over Boot2docker):
 
 ```
-curl "http://docker.local:8182?gremlin=100-1"
-curl "http://docker.local:8182?gremlin=g.addV('Name','Eric')"
-curl "http://docker.local:8182?gremlin=g.V()"
+curl "http://192.168.99.100:8182?gremlin=100-1"
+curl "http://192.168.99.100:8182?gremlin=g.addV('Name','Eric')"
+curl "http://192.168.99.100:8182?gremlin=g.V()"
 ```
 
 ## Dependencies
