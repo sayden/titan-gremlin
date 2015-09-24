@@ -17,7 +17,7 @@ Enter Docker. Now it is possible to run Titan and it's dependencies in separate 
 This container is using Titan 1.0.0. Please refer to
 its [page](https://github.com/thinkaurelius/titan/wiki/Downloads) for more information.
 
-## Tinkerpop and Gremlin
+## TinkerPop and Gremlin
 
 [Tinkerpop](http://www.tinkerpop.com/) is a vendor-independent API specification for
 manipulating and access Graph databases.
