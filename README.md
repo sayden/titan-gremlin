@@ -1,6 +1,6 @@
 # Docker Image for Titan Graph Database
 
-![Titan TinkerPop Gremlin Docker](https://raw.github.com/elubow/gremlin-titan/master/titan-docker-logo.png)
+![Titan TinkerPop Gremlin Docker](https://raw.githubusercontent.com/elubow/titan-gremlin/master/titan-docker-logo.png)
 
 [Titan](http://titandb.io/) is a free, open source database that is capable of processing
 extremely large graphs and it supports a variety of indexing and storage backends,
