@@ -29,21 +29,21 @@ manipulating and access Graph databases. This is using TinkerPop 3.0.1.
 The minimum system requirements for this stack is 1 GB with 2 cores.
 
 ```
-docker run -d --name es1 itzg/elasticsearch
-docker run -d --name cas1 poklet/cassandra
-docker run -d -P --name mytitan --link es1:elasticsearch --link cas1:cassandra elubow/titan-rexster
+docker run -d --name es1 elasticsearch
+docker run -d --name cas1 elubow/cassandra
+docker run -d -P --name mytitan --link es1:elasticsearch --link cas1:cassandra elubow/titan-gremlin
 ```
 
 I run with a 3 node Cassandra cluster and some local ports exported, like so:
 
 ```
-docker run -d --name es1 -p 9200:9200 itzg/elasticsearch
+docker run -d --name es1 -p 9200:9200 elasticsearch
 
-docker run -d --name cas1 -p 7000:7000 -p 7001:7001 -p 7199:7199 -p 9160:9160 -p 9042:9042 poklet/cassandra
-docker run -d --name cas2 poklet/cassandra start `docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1`
-docker run -d --name cas3 poklet/cassandra start `docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1`
+docker run -d --name cas1 -p 7000:7000 -p 7001:7001 -p 7199:7199 -p 9160:9160 -p 9042:9042 elubow/cassandra
+docker run -d --name cas2 elubow/cassandra start `docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1`
+docker run -d --name cas3 elubow/cassandra start `docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1`
 
-docker run -d --link es1:elasticsearch --link cas1:cassandra -p 8182:8182 -p 8183:8183 -p 8184:8184 --name titan1 titan
+docker run -d --link es1:elasticsearch --link cas1:cassandra -p 8182:8182 -p 8184:8184 --name titan1 elubow/titan-gremlin
 ```
 
 ## Connecting with Gremlin Client
@@ -84,7 +84,7 @@ curl "http://192.168.99.100:8182?gremlin=g.V()"
 
 I've tested this container with the following containers:
 
-	- poklet/cassandra: This is the Cassandra Storage backend for Titan. It scales well for large datasets.
+	- elubow/cassandra: This is the Cassandra Storage backend for Titan. It scales well for large datasets. Also forces Cassandra 2.1 as that's compatible with Titan.
 	- dockerfile/elasticsearch: This is the ElasticSearch Indexing backend for Titan. It provides search capabilities for Titan graph datasets.
 
 ## Roadmap
