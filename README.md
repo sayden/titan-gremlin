@@ -87,7 +87,7 @@ curl "http://192.168.99.100:8182?gremlin=g.V()"
 I've tested this container with the following containers:
 
 	- elubow/cassandra: This is the Cassandra Storage backend for Titan. It scales well for large datasets. Also forces Cassandra 2.1 as that's compatible with Titan.
-	- dockerfile/elasticsearch: This is the ElasticSearch Indexing backend for Titan. It provides search capabilities for Titan graph datasets.
+	- elasticsearch: This is the ElasticSearch Indexing backend for Titan. It provides search capabilities for Titan graph datasets.
 
 ## Roadmap
 
