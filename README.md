@@ -31,19 +31,19 @@ The minimum system requirements for this stack is 1 GB with 2 cores.
 ```
 docker run -d --name es1 elasticsearch
 docker run -d --name cas1 elubow/cassandra
-docker run -d -P --name mytitan --link es1:elasticsearch --link cas1:cassandra elubow/titan-gremlin
+docker run -d -P --name titan1 --link es1:elasticsearch --link cas1:cassandra elubow/titan-gremlin
 ```
 
 I run with a 3 node Cassandra cluster and some local ports exported, like so:
 
 ```
-docker run -d --name es1 -p 9200:9200 elasticsearch
-
 docker run -d --name cas1 -p 7000:7000 -p 7001:7001 -p 7199:7199 -p 9160:9160 -p 9042:9042 elubow/cassandra
-docker run -d --name cas2 elubow/cassandra start `docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1`
-docker run -d --name cas3 elubow/cassandra start `docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1`
+docker run -d --name cas2 --link cas1:cassandra elubow/cassandra start docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1
+docker run -d --name cas3 --link cas1:cassandra elubow/cassandra start docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1
 
-docker run -d --link es1:elasticsearch --link cas1:cassandra -p 8182:8182 -p 8184:8184 --name titan1 elubow/titan-gremlin
+docker run -d --name es1 --link cas1:cassandra -p 9200:9200 elasticsearch
+
+docker run -d --name titan1 --link es1:elasticsearch --link cas1:cassandra -p 8182:8182 -p 8184:8184 elubow/titan-gremlin
 ```
 
 ## Connecting with Gremlin Client
@@ -56,7 +56,7 @@ storage.backend=cassandrathrift
 storage.hostname=192.168.99.100
 ```
 
-Then start the gremlin server by doing `bin/gremlin.sh` and run the following commands:
+Then start the gremlin server by doing `bin/gremlin.sh` and run the following commands inside the Gremlin console:
 
 ```
 gremlin> graph = TitanFactory.open('/Users/elubow/tmp/local-gremlin.properties')
@@ -66,6 +66,8 @@ gremlin> g = graph.traversal()
 gremlin> g.V()
 ==>v[4168]
 ```
+
+NOTE: This will not use the elasticsearch backend.
 
 ### Ports
 
