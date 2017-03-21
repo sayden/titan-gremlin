@@ -29,7 +29,7 @@ manipulating and access Graph databases. This is using TinkerPop 3.0.1.
 The minimum system requirements for this stack is 1 GB with 2 cores.
 
 ```
-docker run -d --name es1 elasticsearch
+docker run -d --name es1 elasticsearch:1.5
 docker run -d --name cas1 elubow/cassandra
 docker run -d -P --name titan1 --link es1:elasticsearch --link cas1:cassandra elubow/titan-gremlin
 ```
@@ -41,7 +41,7 @@ docker run -d --name cas1 -p 7000:7000 -p 7001:7001 -p 7199:7199 -p 9160:9160 -p
 docker run -d --name cas2 --link cas1:cassandra elubow/cassandra start docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1
 docker run -d --name cas3 --link cas1:cassandra elubow/cassandra start docker inspect --format '{{ .NetworkSettings.IPAddress }}' cas1
 
-docker run -d --name es1 --link cas1:cassandra -p 9200:9200 elasticsearch
+docker run -d --name es1 --link cas1:cassandra -p 9200:9200 elasticsearch:1.5
 
 docker run -d --name titan1 --link es1:elasticsearch --link cas1:cassandra -p 8182:8182 -p 8184:8184 elubow/titan-gremlin
 ```
@@ -54,6 +54,8 @@ Then create a properties file that looks like this where the `storage.hostname` 
 ```
 storage.backend=cassandrathrift
 storage.hostname=192.168.99.100
+index.search.hostname=192.168.99.100
+index.search.elasticsearch.client-only=true
 ```
 
 Then start the gremlin server by doing `bin/gremlin.sh` and run the following commands inside the Gremlin console:
@@ -66,8 +68,6 @@ gremlin> g = graph.traversal()
 gremlin> g.V()
 ==>v[4168]
 ```
-
-NOTE: This will not use the elasticsearch backend.
 
 ### Ports
 
@@ -87,14 +87,4 @@ curl "http://192.168.99.100:8182?gremlin=g.V()"
 I've tested this container with the following containers:
 
 	- elubow/cassandra: This is the Cassandra Storage backend for Titan. It scales well for large datasets. Also forces Cassandra 2.1 as that's compatible with Titan.
-	- elasticsearch: This is the ElasticSearch Indexing backend for Titan. It provides search capabilities for Titan graph datasets.
-
-## Roadmap
-
-In the near future, I'd like to add support for:
-
-	- Scaling/Clustering Cassandra and ElasticSearch backends.
-	- External volumes for persistent data.
-	- Security between Titan and its backends.
-	- Example application stack integrating with Titan.
-
+	- elasticsearch v1.5: This is the ElasticSearch Indexing backend for Titan. It provides search capabilities for Titan graph datasets.
