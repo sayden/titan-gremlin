@@ -63,10 +63,18 @@ Then start the gremlin server by doing `bin/gremlin.sh` and run the following co
 ```
 gremlin> graph = TitanFactory.open('/Users/elubow/tmp/local-gremlin.properties')
 ==>standardtitangraph[cassandrathrift:[192.168.99.100]]
+gremlin> graph = TitanFactory.open('conf/titan-cassandra-es.properties')
+==>standardtitangraph[cassandrathrift:[127.0.0.1]]
+gremlin> GraphOfTheGodsFactory.load(graph)
+==>null
 gremlin> g = graph.traversal()
-==>graphtraversalsource[standardtitangraph[cassandrathrift:[192.168.99.100]], standard]
-gremlin> g.V()
-==>v[4168]
+==>graphtraversalsource[standardtitangraph[cassandrathrift:[127.0.0.1]], standard]
+gremlin> saturn = g.V().has('name', 'saturn').next()
+==>v[256]
+gremlin> g.V(saturn).valueMap()
+==>[name:[saturn], age:[10000]]
+gremlin> g.V(saturn).in('father').in('father').values('name')
+==>hercules
 ```
 
 ### Ports
