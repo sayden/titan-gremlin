@@ -63,8 +63,6 @@ Then start the gremlin server by doing `bin/gremlin.sh` and run the following co
 ```
 gremlin> graph = TitanFactory.open('/Users/elubow/tmp/local-gremlin.properties')
 ==>standardtitangraph[cassandrathrift:[192.168.99.100]]
-gremlin> graph = TitanFactory.open('conf/titan-cassandra-es.properties')
-==>standardtitangraph[cassandrathrift:[127.0.0.1]]
 gremlin> GraphOfTheGodsFactory.load(graph)
 ==>null
 gremlin> g = graph.traversal()
